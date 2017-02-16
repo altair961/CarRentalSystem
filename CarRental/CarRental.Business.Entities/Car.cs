@@ -1,4 +1,5 @@
-﻿using Core.Common.Core;
+﻿using Core.Common.Contracts;
+using Core.Common.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace CarRental.Business.Entities
 {
     [DataContract]
-    public class Car : EntityBase
+    public class Car : EntityBase, IIdentifiableEntity
     {
         [DataMember]
         public int CarId { get; set; }
@@ -28,5 +29,7 @@ namespace CarRental.Business.Entities
 
         [DataMember]
         public bool CurrentlyRented { get; set; }
+
+        public int EntityId { get; set; }
     }
 }
