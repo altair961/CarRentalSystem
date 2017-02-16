@@ -30,6 +30,10 @@ namespace CarRental.Business.Entities
         [DataMember]
         public bool CurrentlyRented { get; set; }
 
-        public int EntityId { get; set; }
+        public int EntityId
+        {
+            get { return CarId; }
+            set { CarId = value; }
+        }
     }
 }
