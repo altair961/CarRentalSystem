@@ -1,9 +1,4 @@
 ﻿using Core.Common.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CarRental.Client.Entities
 {
@@ -24,7 +19,8 @@ namespace CarRental.Client.Entities
                 if (_CarId != value)
                 {
                     _CarId = value;
-                    OnPropertyChanged("CarId");
+                    // OnPropertyChanged("CarId");
+                    OnPropertyChanged(() => CarId); // this enables compile time safety while working with names of properties
                 }
             }
         }

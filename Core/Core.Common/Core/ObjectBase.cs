@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Core.Common.Utils;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace Core.Common.Core
 {
@@ -40,6 +43,12 @@ namespace Core.Common.Core
 
             if (makeDirty)
                 _IsDirty = true;
+        }
+
+        protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
+        {
+            string propertyName = PropertySupport.ExtractPropertyName(propertyExpression);
+            OnPropertyChanged(propertyName);
         }
 
         bool _IsDirty;
