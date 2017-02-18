@@ -1,10 +1,32 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Core.Common.Core
 {
     public class ObjectBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private event PropertyChangedEventHandler _PropertyChanged;
+
+        List<PropertyChangedEventHandler> _PropertyChangedSubscribers
+            = new List<PropertyChangedEventHandler>();
+
+        public event PropertyChangedEventHandler PropertyChanged
+        {
+            add
+            {
+                if (!_PropertyChangedSubscribers.Contains(value))
+                {
+                    _PropertyChanged += value;
+                    _PropertyChangedSubscribers.Add(value);
+                }
+            }
+            remove
+            {
+                _PropertyChanged -= value;
+                _PropertyChangedSubscribers.Remove(value);
+            }
+        }
+
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -13,8 +35,8 @@ namespace Core.Common.Core
 
         protected virtual void OnPropertyChanged(string propertyName, bool makeDirty)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (_PropertyChanged != null)
+                _PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 
             if (makeDirty)
                 _IsDirty = true;
