@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Common.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CarRental.Client.Entities
 {
-    public class Car
+    public class Car : ObjectBase
     {
         int _CarId;
         string _Description;
@@ -17,13 +18,14 @@ namespace CarRental.Client.Entities
 
         public int CarId
         {
-            get
-            {
-                return _CarId;
-            }
+            get { return _CarId; }
             set
             {
-                _CarId = value;
+                if (_CarId != value)
+                {
+                    _CarId = value;
+                    OnPropertyChanged("CarId");
+                }
             }
         }
 
