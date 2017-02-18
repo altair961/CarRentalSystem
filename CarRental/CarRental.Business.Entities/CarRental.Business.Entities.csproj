@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core.Common.Contracts\Core.Common.Contracts.csproj">
+    <ProjectReference Include="..\..\Core\Core.Common.Contracts\Core.Common.Contracts.csproj">
       <Project>{DB02A6EE-7800-474B-8577-C07C87A6DD3C}</Project>
       <Name>Core.Common.Contracts</Name>
     </ProjectReference>
