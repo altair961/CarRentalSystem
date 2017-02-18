@@ -33,7 +33,11 @@ namespace CarRental.Client.Entities
             }
             set
             {
-                _Description = value;
+                if (_Description != value)
+                {
+                    _Description = value;
+                    OnPropertyChanged(() => Description);
+                }
             }
         }
 
@@ -45,7 +49,11 @@ namespace CarRental.Client.Entities
             }
             set
             {
-                _Color = value;
+                if (_Color != value)
+                {
+                    _Color = value;
+                    OnPropertyChanged(() => Color);
+                }
             }
         }
 
@@ -57,7 +65,11 @@ namespace CarRental.Client.Entities
             }
             set
             {
-                _Year = value;
+                if (_Year != value)
+                {
+                    _Year = value;
+                    OnPropertyChanged(() => Year);
+                }
             }
         }
 
@@ -69,7 +81,11 @@ namespace CarRental.Client.Entities
             }
             set
             {
-                _RentalPrice = value;
+                if (_RentalPrice != value)
+                {
+                    _RentalPrice = value;
+                    OnPropertyChanged(() => RentalPrice);
+                }
             }
         }
 
@@ -81,7 +97,11 @@ namespace CarRental.Client.Entities
             }
             set
             {
-                _CurrentlyRented = value;
+                if (_CurrentlyRented != value)
+                {
+                    _CurrentlyRented = value;
+                    OnPropertyChanged(() => CurrentlyRented);
+                }
             }
         }
     }
