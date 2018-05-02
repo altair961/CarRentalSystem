@@ -4,21 +4,21 @@ namespace CarRental.Client.Entities
 {
     public class Car : ObjectBase
     {
-        int _CarId;
-        string _Description;
-        string _Color;
-        int _Year;
-        decimal _RentalPrice;
-        bool _CurrentlyRented;
+        private int carId;
+        string description;
+        string color;
+        int year;
+        decimal rentalPrice;
+        bool currentlyRented;
 
         public int CarId
         {
-            get { return _CarId; }
+            get { return carId; }
             set
             {
-                if (_CarId != value)
+                if (carId != value)
                 {
-                    _CarId = value;
+                    carId = value;
                     // OnPropertyChanged("CarId");
                     OnPropertyChanged(() => CarId); // this enables compile time safety while working with names of properties
                 }
@@ -29,13 +29,13 @@ namespace CarRental.Client.Entities
         {
             get
             {
-                return _Description;
+                return description;
             }
             set
             {
-                if (_Description != value)
+                if (description != value)
                 {
-                    _Description = value;
+                    description = value;
                     OnPropertyChanged(() => Description);
                 }
             }
@@ -45,13 +45,13 @@ namespace CarRental.Client.Entities
         {
             get
             {
-                return _Color;
+                return color;
             }
             set
             {
-                if (_Color != value)
+                if (color != value)
                 {
-                    _Color = value;
+                    color = value;
                     OnPropertyChanged(() => Color);
                 }
             }
@@ -61,13 +61,13 @@ namespace CarRental.Client.Entities
         {
             get
             {
-                return _Year;
+                return year;
             }
             set
             {
-                if (_Year != value)
+                if (year != value)
                 {
-                    _Year = value;
+                    year = value;
                     OnPropertyChanged(() => Year);
                 }
             }
@@ -77,13 +77,13 @@ namespace CarRental.Client.Entities
         {
             get
             {
-                return _RentalPrice;
+                return rentalPrice;
             }
             set
             {
-                if (_RentalPrice != value)
+                if (rentalPrice != value)
                 {
-                    _RentalPrice = value;
+                    rentalPrice = value;
                     OnPropertyChanged(() => RentalPrice);
                 }
             }
@@ -93,13 +93,13 @@ namespace CarRental.Client.Entities
         {
             get
             {
-                return _CurrentlyRented;
+                return currentlyRented;
             }
             set
             {
-                if (_CurrentlyRented != value)
+                if (currentlyRented != value)
                 {
-                    _CurrentlyRented = value;
+                    currentlyRented = value;
                     OnPropertyChanged(() => CurrentlyRented);
                 }
             }
