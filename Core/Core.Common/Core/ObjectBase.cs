@@ -1,6 +1,7 @@
 ﻿using Core.Common.Extensions;
 using Core.Common.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -85,7 +86,25 @@ namespace Core.Common.Core
                         PropertyInfo[] properties = o.GetBrowsableProperties();
                         foreach (PropertyInfo property in properties)
                         {
+                            if (property.PropertyType.IsSubclassOf(typeof(ObjectBase)))
+                            {
+                                ObjectBase obj = (ObjectBase)(property.GetValue(o, null));
+                                walk(obj);
+                            }
+                            else
+                            {
+                                IList coll = property.GetValue(o, null) as IList;
+                                if(coll != null)
+                                {
+                                    // Here we can do something to "coll" collection
 
+                                    foreach (object item in coll)
+                                    {
+                                        if (item is ObjectBase)
+                                            walk((ObjectBase)item);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
