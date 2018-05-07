@@ -1,8 +1,10 @@
-﻿using Core.Common.Utils;
+﻿using Core.Common.Extensions;
+using Core.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Core.Common.Core
 {
@@ -59,6 +61,37 @@ namespace Core.Common.Core
             {
                 return _IsDirty;
             }
+        }
+        protected List<ObjectBase> GetDirtyObjects()
+        {
+            List<ObjectBase> dirtyObjects = new List<ObjectBase>();
+            List<ObjectBase> visited = new List<ObjectBase>();
+
+            Action<ObjectBase> walk = null;
+
+            walk = (o) =>
+            {
+                if (o != null && !visited.Contains(o))
+                {
+                    visited.Add(o);
+
+                    if (o.IsDirty)
+                        dirtyObjects.Add(o);
+
+                    bool exitWalk = false;
+
+                    if (!exitWalk)
+                    {
+                        PropertyInfo[] properties = o.GetBrowsableProperties();
+                        foreach (PropertyInfo property in properties)
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            return dirtyObjects;
         }
     }
 }
