@@ -89,7 +89,7 @@ namespace Core.Common.Core
                         }
                     }
                 }
-            }
+            };
 
             return dirtyObjects;
         }
