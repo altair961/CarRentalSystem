@@ -8,25 +8,25 @@ namespace Core.Common.Core
 {
     public class ObjectBase : INotifyPropertyChanged
     {
-        private event PropertyChangedEventHandler _PropertyChanged;
+        private event PropertyChangedEventHandler propertyChanged;
 
-        List<PropertyChangedEventHandler> _PropertyChangedSubscribers
+        private List<PropertyChangedEventHandler> propertyChangedSubscribers
             = new List<PropertyChangedEventHandler>();
 
         public event PropertyChangedEventHandler PropertyChanged
         {
             add
             {
-                if (!_PropertyChangedSubscribers.Contains(value))
+                if (!propertyChangedSubscribers.Contains(value))
                 {
-                    _PropertyChanged += value;
-                    _PropertyChangedSubscribers.Add(value);
+                    propertyChanged += value;
+                    propertyChangedSubscribers.Add(value);
                 }
             }
             remove
             {
-                _PropertyChanged -= value;
-                _PropertyChangedSubscribers.Remove(value);
+                propertyChanged -= value;
+                propertyChangedSubscribers.Remove(value);
             }
         }
 
@@ -38,8 +38,8 @@ namespace Core.Common.Core
 
         protected virtual void OnPropertyChanged(string propertyName, bool makeDirty)
         {
-            if (_PropertyChanged != null)
-                _PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (propertyChanged != null)
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
 
             if (makeDirty)
                 _IsDirty = true;
