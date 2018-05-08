@@ -90,6 +90,25 @@ namespace Core.Common.Core
             }, coll => { });
         }
 
+        public virtual bool IsAnythingDirty()
+        {
+            bool isDirty = false;
+
+            WalkObjectGraph(
+            o =>
+            {
+                if (o.IsDirty)
+                {
+                    isDirty = true;
+                    return true;
+                }
+                else
+                    return false;
+            }, coll => { });
+
+            return isDirty;
+        }
+
         protected void WalkObjectGraph(Func<ObjectBase, bool> snippetForObject,
                                        Action<IList> snippetForCollection,
                                        params string[] exemptProperties)
