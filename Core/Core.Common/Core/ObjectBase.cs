@@ -46,7 +46,7 @@ namespace Core.Common.Core
                 propertyChanged(this, new PropertyChangedEventArgs(propertyName));
 
             if (makeDirty)
-                _IsDirty = true;
+                isDirty = true;
         }
 
         protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
@@ -55,14 +55,12 @@ namespace Core.Common.Core
             OnPropertyChanged(propertyName);
         }
 
-        bool _IsDirty;
+        private bool isDirty;
 
         public bool IsDirty
         {
-            get
-            {
-                return _IsDirty;
-            }
+            get { return isDirty; }
+            set { isDirty = value; }
         }
 
         public List<ObjectBase> GetDirtyObjects()
@@ -79,6 +77,17 @@ namespace Core.Common.Core
             }, coll => { });
 
             return dirtyObjects;
+        }
+
+        public void CleanAll()
+        {
+            WalkObjectGraph(
+            o =>
+            {
+                if (IsDirty)
+                    o.IsDirty = false;
+                return false;
+            }, coll => { });
         }
 
         protected void WalkObjectGraph(Func<ObjectBase, bool> snippetForObject,
