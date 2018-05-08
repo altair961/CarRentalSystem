@@ -57,6 +57,7 @@ namespace Core.Common.Core
 
         private bool isDirty;
 
+        [NotNavigable]
         public bool IsDirty
         {
             get { return isDirty; }
