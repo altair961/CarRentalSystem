@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -63,12 +64,33 @@ namespace Core.Common.Core
                 return _IsDirty;
             }
         }
-        protected List<ObjectBase> GetDirtyObjects()
+
+        public List<ObjectBase> GetDirtyObjects()
         {
             List<ObjectBase> dirtyObjects = new List<ObjectBase>();
-            List<ObjectBase> visited = new List<ObjectBase>();
 
+            WalkObjectGraph(
+            o =>
+            {
+                if (o.IsDirty)
+                    dirtyObjects.Add(o);
+
+                return false;
+            }, coll => { });
+
+            return dirtyObjects;
+        }
+
+        protected void WalkObjectGraph(Func<ObjectBase, bool> snippetForObject,
+                                       Action<IList> snippetForCollection,
+                                       params string[] exemptProperties)
+        {
+            List<ObjectBase> visited = new List<ObjectBase>();
             Action<ObjectBase> walk = null;
+
+            List<string> exemptions = new List<string>();
+            if (exemptProperties != null)
+                exemptions = exemptProperties.ToList();
 
             walk = (o) =>
             {
@@ -76,32 +98,32 @@ namespace Core.Common.Core
                 {
                     visited.Add(o);
 
-                    if (o.IsDirty)
-                        dirtyObjects.Add(o);
-
-                    bool exitWalk = false;
+                    bool exitWalk = snippetForObject.Invoke(o);
 
                     if (!exitWalk)
                     {
                         PropertyInfo[] properties = o.GetBrowsableProperties();
                         foreach (PropertyInfo property in properties)
                         {
-                            if (property.PropertyType.IsSubclassOf(typeof(ObjectBase)))
+                            if (!exemptions.Contains(property.Name))
                             {
-                                ObjectBase obj = (ObjectBase)(property.GetValue(o, null));
-                                walk(obj);
-                            }
-                            else
-                            {
-                                IList coll = property.GetValue(o, null) as IList;
-                                if(coll != null)
+                                if (property.PropertyType.IsSubclassOf(typeof(ObjectBase)))
                                 {
-                                    // Here we can do something to "coll" collection
-
-                                    foreach (object item in coll)
+                                    ObjectBase obj = (ObjectBase)(property.GetValue(o, null));
+                                    walk(obj);
+                                }
+                                else
+                                {
+                                    IList coll = property.GetValue(o, null) as IList;
+                                    if (coll != null)
                                     {
-                                        if (item is ObjectBase)
-                                            walk((ObjectBase)item);
+                                        snippetForCollection.Invoke(coll);
+
+                                        foreach (object item in coll)
+                                        {
+                                            if (item is ObjectBase)
+                                                walk((ObjectBase)item);
+                                        }
                                     }
                                 }
                             }
@@ -109,8 +131,10 @@ namespace Core.Common.Core
                     }
                 }
             };
-
-            return dirtyObjects;
         }
+
+
+        //   return dirtyObjects;
     }
 }
+
