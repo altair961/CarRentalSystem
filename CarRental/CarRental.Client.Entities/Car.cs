@@ -5,11 +5,11 @@ namespace CarRental.Client.Entities
     public class Car : ObjectBase
     {
         private int carId;
-        string description;
-        string color;
-        int year;
-        decimal rentalPrice;
-        bool currentlyRented;
+        private string description;
+        private string color;
+        private int year;
+        private decimal rentalPrice;
+        private bool currentlyRented;
 
         public int CarId
         {
@@ -19,18 +19,14 @@ namespace CarRental.Client.Entities
                 if (carId != value)
                 {
                     carId = value;
-                    // OnPropertyChanged("CarId");
-                    OnPropertyChanged(() => CarId); // this enables compile time safety while working with names of properties
+                    OnPropertyChanged(() => CarId);
                 }
             }
         }
 
         public string Description
         {
-            get
-            {
-                return description;
-            }
+            get { return description; }
             set
             {
                 if (description != value)
@@ -43,10 +39,7 @@ namespace CarRental.Client.Entities
 
         public string Color
         {
-            get
-            {
-                return color;
-            }
+            get { return color; }
             set
             {
                 if (color != value)
@@ -59,10 +52,7 @@ namespace CarRental.Client.Entities
 
         public int Year
         {
-            get
-            {
-                return year;
-            }
+            get { return year; }
             set
             {
                 if (year != value)
@@ -75,10 +65,7 @@ namespace CarRental.Client.Entities
 
         public decimal RentalPrice
         {
-            get
-            {
-                return rentalPrice;
-            }
+            get { return rentalPrice; }
             set
             {
                 if (rentalPrice != value)
@@ -91,10 +78,7 @@ namespace CarRental.Client.Entities
 
         public bool CurrentlyRented
         {
-            get
-            {
-                return currentlyRented;
-            }
+            get { return currentlyRented; }
             set
             {
                 if (currentlyRented != value)
